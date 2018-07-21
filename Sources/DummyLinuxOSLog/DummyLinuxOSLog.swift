@@ -64,7 +64,9 @@ public func os_log(_ message: StaticString, dso: UnsafeRawPointer? = #dsohandle,
 	})
 }
 
-public func NSLogString(_ str: String) {
+public func NSLogString(_ str: String, log: OSLog = nil) {
+	guard log != nil else {return}
+	
 	NSLog(str.replacingOccurrences(of: "%", with: "%%"))
 }
 
