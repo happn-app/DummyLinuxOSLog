@@ -16,12 +16,21 @@ formatless one, I _might_ have missed some edge cases which might still make the
 app crash because of missing formats.
 
 Full example of a log compatible with all Swift-supported platforms:
-	#if !os(Linux)
+	/* Module imports */
+	#if canImport(os)
+		import os.log
+	#elseif canImport(DummyLinuxOSLog)
+		import DummyLinuxOSLog
+	#endif
+
+	/* Actual log code */
+	#if canImport(os)
 		if #available(OSX 10.12, tvOS 10.0, iOS 10.0, watchOS 3.0, *) {logObject.flatMap{ os_log("Logging this string: %@", log: $0, type: .error, theString) }}
 		else                                                          {NSLog("***** Logging this string: %@", theString)}
 	#else
 		NSLogString("***** Logging this string: \(theString)")
 	#endif
+
 
 How delightful! */
 
