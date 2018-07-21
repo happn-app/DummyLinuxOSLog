@@ -40,7 +40,7 @@ import Foundation
 
 #if !canImport(os)
 
-public typealias OSLog = Void?
+public typealias OSLog = Void
 
 public enum OSLogType {
 	case `default`
@@ -51,8 +51,6 @@ public enum OSLogType {
 }
 
 public func os_log(_ message: StaticString, dso: UnsafeRawPointer? = #dsohandle, log: OSLog = (), type: OSLogType = .default, _ args: CVarArg...) {
-	guard log != nil else {return}
-	
 	let messageString = message.withUTF8Buffer{ buffer -> String in
 		String(decoding: buffer, as: UTF8.self)
 	}
@@ -64,7 +62,7 @@ public func os_log(_ message: StaticString, dso: UnsafeRawPointer? = #dsohandle,
 	})
 }
 
-public func NSLogString(_ str: String, log: OSLog = nil) {
+public func NSLogString(_ str: String, log: OSLog? = nil) {
 	guard log != nil else {return}
 	
 	NSLog(str.replacingOccurrences(of: "%", with: "%%"))
